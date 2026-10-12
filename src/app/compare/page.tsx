@@ -1,3 +1,5 @@
+export const instant = false;
+
 import Link from "next/link";
 import { loadAllScrapedProducts } from "@/lib/scraped-data";
 import { getScrapedCategoryStats } from "@/lib/scraped-data";
