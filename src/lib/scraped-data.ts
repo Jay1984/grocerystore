@@ -136,6 +136,10 @@ function loadLuluProducts(): ScrapedProduct[] {
   }));
 }
 
+export function clearCache() {
+  _cache = null;
+}
+
 export function loadAllScrapedProducts(): ScrapedProduct[] {
   if (_cache) return _cache;
   _cache = [
