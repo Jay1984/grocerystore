@@ -174,8 +174,14 @@ export function SearchAutocomplete({
           type="text"
           value={query}
           onChange={(e) => {
-            setQuery(e.target.value);
-            if (e.target.value.trim().length >= 2) setOpen(true);
+            const val = e.target.value;
+            setQuery(val);
+            if (val.trim().length >= 2) {
+              setOpen(true);
+            } else if (val.trim().length === 0) {
+              close();
+              if (onSearch) onSearch("");
+            }
           }}
           onFocus={() => {
             if (query.trim().length >= 2 && suggestions.length > 0) setOpen(true);
@@ -197,6 +203,7 @@ export function SearchAutocomplete({
             onClick={() => {
               setQuery("");
               close();
+              if (onSearch) onSearch("");
               inputRef.current?.focus();
             }}
             className="text-[#596B62] hover:text-[#17241E] shrink-0 p-0.5"
