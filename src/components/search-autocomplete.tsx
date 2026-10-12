@@ -62,8 +62,8 @@ export function SearchAutocomplete({
     : rawSuggestions;
 
   useEffect(() => {
-    if (initialQuery) setQuery(initialQuery);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    setQuery(initialQuery);
+  }, [initialQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {

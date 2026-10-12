@@ -233,6 +233,19 @@ export default async function ComparePage(props: {
         </div>
       )}
 
+      {/* Clear all filters */}
+      {(q || selectedCategories.length > 0 || validBrands.length > 0 || retailer !== "all" || sort !== "default") && (
+        <div className="mb-3">
+          <Link
+            href="/compare"
+            className="inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1.5 text-[13px] font-medium text-red-600 hover:bg-red-100 transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+            Clear all filters
+          </Link>
+        </div>
+      )}
+
       {/* Result count */}
       <p className="text-[13px] text-[#64748B] mb-4">
         Showing {((page - 1) * pageSize + 1).toLocaleString()}–
