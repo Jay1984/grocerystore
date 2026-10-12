@@ -119,7 +119,7 @@ export default function FavoritesPage() {
   if (!mounted) {
     return (
       <div className="px-6 py-5 lg:px-8 lg:py-6 max-w-[1200px]">
-        <p className="text-[14px] text-[#596B62]">Loading...</p>
+        <p className="text-[14px] text-[var(--color-text-secondary)]">Loading...</p>
       </div>
     );
   }
@@ -127,17 +127,17 @@ export default function FavoritesPage() {
   return (
     <div className="px-6 py-5 lg:px-8 lg:py-6 max-w-[1200px]">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-[13px] text-[#596B62] mb-4">
-        <Link href="/" className="hover:text-[#17241E]">My household</Link>
-        <span className="text-[#E3EBE6]">/</span>
-        <span className="text-[#17241E] font-medium">My Favorites</span>
+      <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)] mb-4">
+        <Link href="/" className="hover:text-[var(--color-text-primary)]">My household</Link>
+        <span className="text-[var(--color-border-light)]">/</span>
+        <span className="text-[var(--color-text-primary)] font-medium">My Favorites</span>
       </div>
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
         <div>
-          <h1 className="text-[24px] font-bold text-[#17241E]">My Favorites</h1>
-          <p className="text-[14px] text-[#596B62] mt-1">
+          <h1 className="text-[24px] font-bold text-[var(--color-text-primary)]">My Favorites</h1>
+          <p className="text-[14px] text-[var(--color-text-secondary)] mt-1">
             {count === 0
               ? "No favorites yet. Tap the heart icon on any product to save it."
               : `${count} saved product${count !== 1 ? "s" : ""}`}
@@ -145,7 +145,7 @@ export default function FavoritesPage() {
         </div>
         <Link
           href="/compare"
-          className="flex items-center gap-2 rounded-lg bg-[#087F5B] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#006B4F] transition-colors shrink-0"
+          className="flex items-center gap-2 rounded-lg bg-[var(--color-teal-accent)] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[var(--color-teal-accent)] transition-colors shrink-0"
         >
           Browse Products
         </Link>
@@ -155,8 +155,8 @@ export default function FavoritesPage() {
       {count > 0 && (
         <div className="flex flex-wrap gap-3 mb-5">
           {/* Search */}
-          <div className="flex items-center gap-2 rounded-lg border border-[#E3EBE6] bg-white px-3 py-2 flex-1 min-w-[200px] max-w-[400px]">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#596B62" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+          <div className="flex items-center gap-2 rounded-lg border border-[var(--color-border-light)] bg-[var(--color-surface)] px-3 py-2 flex-1 min-w-[200px] max-w-[400px]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
               <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
             <input
@@ -164,12 +164,12 @@ export default function FavoritesPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search favorites…"
-              className="flex-1 text-[14px] text-[#17241E] placeholder:text-[#596B62] bg-transparent outline-none min-w-0"
+              className="flex-1 text-[14px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] bg-transparent outline-none min-w-0"
             />
             {search && (
               <button
                 onClick={() => setSearch("")}
-                className="text-[#596B62] hover:text-[#17241E] shrink-0"
+                className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] shrink-0"
                 aria-label="Clear search"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -184,7 +184,7 @@ export default function FavoritesPage() {
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="rounded-lg border border-[#E3EBE6] bg-white px-3 py-2 text-[14px] text-[#17241E] outline-none"
+              className="rounded-lg border border-[var(--color-border-light)] bg-[var(--color-surface)] px-3 py-2 text-[14px] text-[var(--color-text-primary)] outline-none"
             >
               <option value="">All Categories</option>
               {categories.map((c) => (
@@ -197,7 +197,7 @@ export default function FavoritesPage() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortKey)}
-            className="rounded-lg border border-[#E3EBE6] bg-white px-3 py-2 text-[14px] text-[#17241E] outline-none"
+            className="rounded-lg border border-[var(--color-border-light)] bg-[var(--color-surface)] px-3 py-2 text-[14px] text-[var(--color-text-primary)] outline-none"
           >
             <option value="recent">Recently Favorited</option>
             <option value="name">Product Name</option>
@@ -209,26 +209,26 @@ export default function FavoritesPage() {
 
       {/* Results */}
       {loading && count > 0 ? (
-        <div className="rounded-2xl border border-[#E3EBE6] bg-white p-12 text-center">
-          <p className="text-[14px] text-[#596B62]">Loading prices...</p>
+        <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-12 text-center">
+          <p className="text-[14px] text-[var(--color-text-secondary)]">Loading prices...</p>
         </div>
       ) : filtered.length === 0 && count > 0 ? (
-        <div className="rounded-2xl border border-[#E3EBE6] bg-white p-12 text-center">
-          <p className="text-[16px] font-semibold text-[#17241E] mb-2">No matches</p>
-          <p className="text-[14px] text-[#596B62]">
+        <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-12 text-center">
+          <p className="text-[16px] font-semibold text-[var(--color-text-primary)] mb-2">No matches</p>
+          <p className="text-[14px] text-[var(--color-text-secondary)]">
             No favorites match your search or filters.
           </p>
         </div>
       ) : count === 0 ? (
-        <div className="rounded-2xl border border-[#E3EBE6] bg-white p-12 text-center">
+        <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-12 text-center">
           <span className="text-5xl mb-4 block">❤️</span>
-          <p className="text-[16px] font-semibold text-[#17241E] mb-2">No favorites yet</p>
-          <p className="text-[14px] text-[#596B62] mb-4">
+          <p className="text-[16px] font-semibold text-[var(--color-text-primary)] mb-2">No favorites yet</p>
+          <p className="text-[14px] text-[var(--color-text-secondary)] mb-4">
             Browse products and tap the heart icon to save them here.
           </p>
           <Link
             href="/compare"
-            className="inline-flex items-center gap-2 rounded-lg bg-[#087F5B] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[#006B4F] transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-teal-accent)] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[var(--color-teal-accent)] transition-colors"
           >
             Compare Prices →
           </Link>
@@ -236,10 +236,10 @@ export default function FavoritesPage() {
       ) : (
         <>
           {/* Desktop table */}
-          <div className="hidden lg:block rounded-2xl border border-[#E3EBE6] bg-white overflow-hidden">
+          <div className="hidden lg:block rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] overflow-hidden">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-[#E3EBE6] text-[12px] font-medium text-[#596B62] uppercase tracking-wider">
+                <tr className="border-b border-[var(--color-border-light)] text-[12px] font-medium text-[var(--color-text-secondary)] uppercase tracking-wider">
                   <th className="px-5 py-3">Product</th>
                   {RETAILERS.map((r) => (
                     <th key={r.id} className="px-3 py-3 text-center">{r.name}</th>
@@ -249,19 +249,19 @@ export default function FavoritesPage() {
                   <th className="px-3 py-3 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E3EBE6]">
+              <tbody className="divide-y divide-[var(--color-border-light)]">
                 {filtered.map(({ favorite, detail }) => {
                   const lowestPrice = detail?.listings.reduce(
                     (m, l) => Math.min(m, l.price),
                     Infinity
                   );
                   return (
-                    <tr key={favorite.productId} className="hover:bg-[#F5FAF7]/50">
+                    <tr key={favorite.productId} className="hover:bg-[var(--color-teal-light)]/50">
                       <td className="px-5 py-3">
-                        <p className="text-[14px] font-medium text-[#17241E] truncate max-w-[280px]">
+                        <p className="text-[14px] font-medium text-[var(--color-text-primary)] truncate max-w-[280px]">
                           {favorite.title}
                         </p>
-                        <p className="text-[12px] text-[#596B62]">
+                        <p className="text-[12px] text-[var(--color-text-secondary)]">
                           {[favorite.brand, favorite.size].filter(Boolean).join(" · ") || "—"}
                         </p>
                       </td>
@@ -271,18 +271,18 @@ export default function FavoritesPage() {
                         return (
                           <td key={r.id} className="px-3 py-3 text-center">
                             {listing ? (
-                              <span className={`text-[13px] font-semibold tabular-nums ${isLowest ? "text-[#059669]" : "text-[#17241E]"}`}>
+                              <span className={`text-[13px] font-semibold tabular-nums ${isLowest ? "text-[var(--color-teal-accent)]" : "text-[var(--color-text-primary)]"}`}>
                                 {formatBHD(listing.price.toFixed(3))}
                               </span>
                             ) : (
-                              <span className="text-[12px] text-[#94A3B8]">—</span>
+                              <span className="text-[12px] text-[var(--color-text-secondary)]">—</span>
                             )}
                           </td>
                         );
                       })}
                       <td className="px-3 py-3 text-right">
                         {lowestPrice != null && lowestPrice < Infinity ? (
-                          <span className="text-[13px] font-bold text-[#17241E] tabular-nums">
+                          <span className="text-[13px] font-bold text-[var(--color-text-primary)] tabular-nums">
                             {formatBHD(lowestPrice.toFixed(3))}
                           </span>
                         ) : (
@@ -293,11 +293,11 @@ export default function FavoritesPage() {
                       </td>
                       <td className="px-3 py-3 text-right">
                         {detail?.savings != null && detail.savings > 0 ? (
-                          <span className="rounded-full bg-[#D1FAE5] px-2 py-0.5 text-[12px] font-semibold text-[#065F46]">
+                          <span className="rounded-full bg-[var(--color-teal-light)] px-2 py-0.5 text-[12px] font-semibold text-[var(--color-teal-accent)]">
                             {detail.savings.toFixed(1)}%
                           </span>
                         ) : (
-                          <span className="text-[12px] text-[#94A3B8]">—</span>
+                          <span className="text-[12px] text-[var(--color-text-secondary)]">—</span>
                         )}
                       </td>
                       <td className="px-3 py-3">
@@ -338,14 +338,14 @@ export default function FavoritesPage() {
               return (
                 <div
                   key={favorite.productId}
-                  className="rounded-xl border border-[#E3EBE6] bg-white p-4"
+                  className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-4"
                 >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <div className="min-w-0 flex-1">
-                      <p className="text-[15px] font-semibold text-[#17241E]">
+                      <p className="text-[15px] font-semibold text-[var(--color-text-primary)]">
                         {favorite.title}
                       </p>
-                      <p className="text-[13px] text-[#596B62]">
+                      <p className="text-[13px] text-[var(--color-text-secondary)]">
                         {[favorite.brand, favorite.size].filter(Boolean).join(" · ") || "—"}
                       </p>
                     </div>
@@ -369,16 +369,16 @@ export default function FavoritesPage() {
                         <div
                           key={r.id}
                           className={`rounded-lg p-2 text-center ${
-                            isLowest ? "bg-[#ECFDF5] ring-1 ring-[#087F5B]/30" : "bg-[#F8FAFC]"
+                            isLowest ? "bg-[var(--color-teal-light)] ring-1 ring-[var(--color-teal-accent)]/30" : "bg-[var(--color-teal-light)]"
                           }`}
                         >
-                          <p className="text-[11px] font-medium text-[#64748B]">{r.name}</p>
+                          <p className="text-[11px] font-medium text-[var(--color-text-secondary)]">{r.name}</p>
                           {listing ? (
-                            <p className={`text-[13px] font-bold tabular-nums ${isLowest ? "text-[#059669]" : "text-[#17241E]"}`}>
+                            <p className={`text-[13px] font-bold tabular-nums ${isLowest ? "text-[var(--color-teal-accent)]" : "text-[var(--color-text-primary)]"}`}>
                               {formatBHD(listing.price.toFixed(3))}
                             </p>
                           ) : (
-                            <p className="text-[12px] text-[#94A3B8]">—</p>
+                            <p className="text-[12px] text-[var(--color-text-secondary)]">—</p>
                           )}
                         </div>
                       );
@@ -389,7 +389,7 @@ export default function FavoritesPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       {detail?.savings != null && detail.savings > 0 && (
-                        <span className="rounded-full bg-[#D1FAE5] px-2 py-0.5 text-[12px] font-semibold text-[#065F46]">
+                        <span className="rounded-full bg-[var(--color-teal-light)] px-2 py-0.5 text-[12px] font-semibold text-[var(--color-teal-accent)]">
                           Save {detail.savings.toFixed(1)}%
                         </span>
                       )}

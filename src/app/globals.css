@@ -95,38 +95,52 @@
   --color-badge-savings-text: #065F46;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+.dark,
+:root.dark {
+  --background: #0F1512 !important;
+  --foreground: #E8EDE9 !important;
+  --card: #1A201D !important;
+  --card-foreground: #E8EDE9 !important;
+  --popover: #1A201D !important;
+  --popover-foreground: #E8EDE9 !important;
+  --primary: #34D399 !important;
+  --primary-foreground: #0F1512 !important;
+  --secondary: #232A26 !important;
+  --secondary-foreground: #E8EDE9 !important;
+  --muted: #232A26 !important;
+  --muted-foreground: #8A9B90 !important;
+  --accent: #1C2E24 !important;
+  --accent-foreground: #6EE7B7 !important;
+  --destructive: #F87171 !important;
+  --border: #2D3630 !important;
+  --input: #2D3630 !important;
+  --ring: #34D399 !important;
+  --chart-1: #34D399;
+  --chart-2: #38BDF8;
+  --chart-3: #FBBF24;
+  --chart-4: #A78BFA;
+  --chart-5: #F472B6;
+  --radius: 0.625rem;
+  --sidebar: #151B17 !important;
+  --sidebar-foreground: #E8EDE9 !important;
+  --sidebar-primary: #34D399 !important;
+  --sidebar-primary-foreground: #0F1512 !important;
+  --sidebar-accent: #232A26 !important;
+  --sidebar-accent-foreground: #E8EDE9 !important;
+  --sidebar-border: #2D3630 !important;
+  --sidebar-ring: #34D399 !important;
+  --color-teal-accent: #34D399;
+  --color-teal-light: #1C2E24;
+  --color-page-bg: #0F1512;
+  --color-text-primary: #E8EDE9;
+  --color-text-secondary: #8A9B90;
+  --color-text-muted: #6B7C72;
+  --color-surface: #1A201D;
+  --color-border-light: #2D3630;
+  --color-price-winner: #34D399;
+  --color-price-savings: #6EE7B7;
+  --color-badge-savings-bg: #1C2E24;
+  --color-badge-savings-text: #6EE7B7;
 }
 
 @layer base {

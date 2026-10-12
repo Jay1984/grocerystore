@@ -102,7 +102,7 @@ export function AddToGroceryButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <button className="rounded-lg border border-[#333] px-4 py-2 text-[13px] font-semibold text-[#333] hover:bg-[#F5F5F5] transition-colors whitespace-nowrap" />
+          <button className="rounded-lg border border-[var(--color-text-primary)] px-4 py-2 text-[13px] font-semibold text-[var(--color-text-primary)] hover:bg-[var(--color-teal-light)] transition-colors whitespace-nowrap" />
         }
       >
         + Add to monthly list
@@ -114,13 +114,13 @@ export function AddToGroceryButton({
 
         <div className="space-y-3">
           {/* Product info */}
-          <div className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-            <p className="text-[14px] font-medium text-[#111827] leading-snug">{productTitle}</p>
-            <div className="flex flex-wrap gap-x-3 mt-1 text-[12px] text-[#596B62]">
+          <div className="rounded-lg border border-[var(--color-border-light)] bg-[var(--color-page-bg)] p-3">
+            <p className="text-[14px] font-medium text-[var(--color-text-primary)] leading-snug">{productTitle}</p>
+            <div className="flex flex-wrap gap-x-3 mt-1 text-[12px] text-[var(--color-text-secondary)]">
               {brand && <span>{brand}</span>}
               {size && <span>{size}</span>}
               {price > 0 && (
-                <span className="font-semibold text-[#087F5B]">{formatBHD(price.toFixed(3))}</span>
+                <span className="font-semibold text-[var(--color-teal-accent)]">{formatBHD(price.toFixed(3))}</span>
               )}
             </div>
           </div>
@@ -134,11 +134,11 @@ export function AddToGroceryButton({
 
           {/* Month selector */}
           <div>
-            <label className="block text-[13px] font-medium text-[#475569] mb-1">Month</label>
+            <label className="block text-[13px] font-medium text-[var(--color-text-secondary)] mb-1">Month</label>
             <select
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm text-[#111827] outline-none focus:border-[#087F5B] focus:ring-1 focus:ring-[#087F5B]"
+              className="w-full rounded-lg border border-[var(--color-border-light)] bg-[var(--color-surface)] px-3 py-2 text-sm text-[var(--color-text-primary)] outline-none focus:border-[var(--color-teal-accent)] focus:ring-1 focus:ring-[var(--color-teal-accent)]"
             >
               {getMonthOptions().map((o) => (
                 <option key={o.key} value={o.key}>
@@ -150,20 +150,20 @@ export function AddToGroceryButton({
 
           {/* Quantity */}
           <div>
-            <label className="block text-[13px] font-medium text-[#475569] mb-1">Quantity</label>
+            <label className="block text-[13px] font-medium text-[var(--color-text-secondary)] mb-1">Quantity</label>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setQty(Math.max(1, qty - 1))}
-                className="h-8 w-8 rounded-lg border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC] text-sm font-semibold"
+                className="h-8 w-8 rounded-lg border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)] text-sm font-semibold"
               >
                 −
               </button>
-              <span className="w-8 text-center text-[15px] font-semibold text-[#111827] tabular-nums">
+              <span className="w-8 text-center text-[15px] font-semibold text-[var(--color-text-primary)] tabular-nums">
                 {qty}
               </span>
               <button
                 onClick={() => setQty(qty + 1)}
-                className="h-8 w-8 rounded-lg border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC] text-sm font-semibold"
+                className="h-8 w-8 rounded-lg border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)] text-sm font-semibold"
               >
                 +
               </button>
@@ -174,7 +174,7 @@ export function AddToGroceryButton({
         <DialogFooter>
           <button
             onClick={handleAdd}
-            className="w-full sm:w-auto rounded-lg bg-[#087F5B] px-5 py-2 text-sm font-semibold text-white hover:bg-[#065F46] transition-colors"
+            className="w-full sm:w-auto rounded-lg bg-[var(--color-teal-accent)] px-5 py-2 text-sm font-semibold text-white hover:opacity-90 transition-colors"
           >
             {existing ? "Update Quantity" : "Add to Monthly Grocery"}
           </button>

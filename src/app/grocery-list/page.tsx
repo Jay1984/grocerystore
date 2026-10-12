@@ -27,7 +27,7 @@ interface PriceInfo {
 
 export default function GroceryListPageWrapper() {
   return (
-    <Suspense fallback={<div className="px-6 py-5 lg:px-8 lg:py-6 max-w-[1200px]"><p className="text-[14px] text-[#596B62]">Loading...</p></div>}>
+    <Suspense fallback={<div className="px-6 py-5 lg:px-8 lg:py-6 max-w-[1200px]"><p className="text-[14px] text-[var(--color-text-secondary)]">Loading...</p></div>}>
       <GroceryListPage />
     </Suspense>
   );
@@ -112,7 +112,7 @@ function GroceryListPage() {
   if (!mounted) {
     return (
       <div className="px-6 py-5 lg:px-8 lg:py-6 max-w-[1200px]">
-        <p className="text-[14px] text-[#596B62]">Loading...</p>
+        <p className="text-[14px] text-[var(--color-text-secondary)]">Loading...</p>
       </div>
     );
   }
@@ -120,10 +120,10 @@ function GroceryListPage() {
   return (
     <div className="px-6 py-5 lg:px-8 lg:py-6 max-w-[1200px]">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-[13px] text-[#596B62] mb-4">
-        <Link href="/" className="hover:text-[#17241E]">My household</Link>
-        <span className="text-[#E3EBE6]">/</span>
-        <span className="text-[#17241E] font-medium">My Monthly Grocery</span>
+      <div className="flex items-center gap-2 text-[13px] text-[var(--color-text-secondary)] mb-4">
+        <Link href="/" className="hover:text-[var(--color-text-primary)]">My household</Link>
+        <span className="text-[var(--color-border-light)]">/</span>
+        <span className="text-[var(--color-text-primary)] font-medium">My Monthly Grocery</span>
       </div>
 
       {/* Search to add products */}
@@ -134,8 +134,8 @@ function GroceryListPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
         <div>
-          <h1 className="text-[24px] font-bold text-[#17241E]">My Monthly Grocery</h1>
-          <p className="text-[14px] text-[#596B62] mt-1">
+          <h1 className="text-[24px] font-bold text-[var(--color-text-primary)]">My Monthly Grocery</h1>
+          <p className="text-[14px] text-[var(--color-text-secondary)] mt-1">
             {items.length === 0
               ? "Your list is empty. Add items from the Compare Prices page."
               : `${items.length} item${items.length !== 1 ? "s" : ""} · ${items.reduce((s, i) => s + i.quantity, 0)} total units · BHD ${totalCost.toFixed(3)}`}
@@ -144,14 +144,14 @@ function GroceryListPage() {
         <div className="flex items-center gap-3 shrink-0">
           <Link
             href="/compare"
-            className="flex items-center gap-2 rounded-lg bg-[#087F5B] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#006B4F] transition-colors"
+            className="flex items-center gap-2 rounded-lg bg-[var(--color-teal-accent)] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[var(--color-teal-accent)] transition-colors"
           >
             + Add items
           </Link>
           {items.length > 0 && (
             <button
               onClick={handleClearAll}
-              className="rounded-lg border border-[#E3EBE6] px-4 py-2 text-[13px] font-medium text-[#596B62] hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+              className="rounded-lg border border-[var(--color-border-light)] px-4 py-2 text-[13px] font-medium text-[var(--color-text-secondary)] hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
             >
               Clear all
             </button>
@@ -167,8 +167,8 @@ function GroceryListPage() {
             onClick={() => setActiveMonth(tab.key)}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors whitespace-nowrap ${
               activeMonth === tab.key
-                ? "bg-[#087F5B] text-white"
-                : "bg-white border border-[#E3EBE6] text-[#596B62] hover:bg-[#F5FAF7]"
+                ? "bg-[var(--color-teal-accent)] text-white"
+                : "bg-[var(--color-surface)] border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
             }`}
           >
             {tab.label}
@@ -177,24 +177,24 @@ function GroceryListPage() {
       </div>
 
       {items.length === 0 ? (
-        <div className="rounded-2xl border border-[#E3EBE6] bg-white p-12 text-center">
+        <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-12 text-center">
           <span className="text-5xl mb-4 block">🛒</span>
-          <p className="text-[16px] font-semibold text-[#17241E] mb-2">Nothing here yet</p>
-          <p className="text-[14px] text-[#596B62] mb-4">
+          <p className="text-[16px] font-semibold text-[var(--color-text-primary)] mb-2">Nothing here yet</p>
+          <p className="text-[14px] text-[var(--color-text-secondary)] mb-4">
             Browse products and tap &ldquo;+ Monthly Grocery&rdquo; to start building your list.
           </p>
           <Link
             href="/compare"
-            className="inline-flex items-center gap-2 rounded-lg bg-[#087F5B] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[#006B4F] transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[var(--color-teal-accent)] px-5 py-2.5 text-[14px] font-semibold text-white hover:bg-[var(--color-teal-accent)] transition-colors"
           >
             Compare Prices →
           </Link>
         </div>
       ) : (
-        <div className="rounded-2xl border border-[#E3EBE6] bg-white overflow-hidden">
+        <div className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] overflow-hidden">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-[#E3EBE6] text-[12px] font-medium text-[#596B62] uppercase tracking-wider">
+              <tr className="border-b border-[var(--color-border-light)] text-[12px] font-medium text-[var(--color-text-secondary)] uppercase tracking-wider">
                 <th className="px-5 py-3">Item</th>
                 <th className="px-3 py-3 text-right">Price</th>
                 <th className="px-3 py-3 text-center">Qty</th>
@@ -203,27 +203,27 @@ function GroceryListPage() {
                 <th className="px-3 py-3 w-10" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E3EBE6]">
+            <tbody className="divide-y divide-[var(--color-border-light)]">
               {items.map((item) => {
                 const itemPrice = getItemPrice(item);
                 return (
-                  <tr key={item.productId} className="hover:bg-[#F5FAF7]/50">
+                  <tr key={item.productId} className="hover:bg-[var(--color-teal-light)]/50">
                     <td className="px-5 py-3">
-                      <p className="text-[14px] font-medium text-[#17241E] truncate max-w-[300px]">
+                      <p className="text-[14px] font-medium text-[var(--color-text-primary)] truncate max-w-[300px]">
                         {item.title}
                       </p>
-                      <p className="text-[12px] text-[#596B62]">
+                      <p className="text-[12px] text-[var(--color-text-secondary)]">
                         {[item.brand, item.size].filter(Boolean).join(" · ") || "—"}
                       </p>
                     </td>
                     <td className="px-3 py-3 text-right">
                       {itemPrice != null ? (
                         <>
-                          <span className="text-[13px] font-semibold text-[#17241E] tabular-nums">
+                          <span className="text-[13px] font-semibold text-[var(--color-text-primary)] tabular-nums">
                             {formatBHD(itemPrice.toFixed(3))}
                           </span>
                           {item.originalPrice && item.originalPrice > itemPrice && (
-                            <span className="ml-1 text-[11px] text-[#596B62] line-through tabular-nums">
+                            <span className="ml-1 text-[11px] text-[var(--color-text-secondary)] line-through tabular-nums">
                               {formatBHD(item.originalPrice.toFixed(3))}
                             </span>
                           )}
@@ -238,25 +238,25 @@ function GroceryListPage() {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           onClick={() => handleUpdateQty(item.productId, -1)}
-                          className="h-7 w-7 rounded border border-[#E3EBE6] text-[#596B62] hover:bg-[#F5FAF7] text-sm font-semibold"
+                          className="h-7 w-7 rounded border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)] text-sm font-semibold"
                         >
                           −
                         </button>
-                        <span className="w-6 text-center text-[14px] font-semibold text-[#17241E] tabular-nums">
+                        <span className="w-6 text-center text-[14px] font-semibold text-[var(--color-text-primary)] tabular-nums">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => handleUpdateQty(item.productId, 1)}
-                          className="h-7 w-7 rounded border border-[#E3EBE6] text-[#596B62] hover:bg-[#F5FAF7] text-sm font-semibold"
+                          className="h-7 w-7 rounded border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)] text-sm font-semibold"
                         >
                           +
                         </button>
                       </div>
                     </td>
-                    <td className="px-3 py-3 text-right text-[13px] font-semibold text-[#17241E] tabular-nums">
+                    <td className="px-3 py-3 text-right text-[13px] font-semibold text-[var(--color-text-primary)] tabular-nums">
                       {itemPrice != null ? formatBHD((itemPrice * item.quantity).toFixed(3)) : "—"}
                     </td>
-                    <td className="px-3 py-3 text-right text-[13px] text-[#596B62]">
+                    <td className="px-3 py-3 text-right text-[13px] text-[var(--color-text-secondary)]">
                       {new Date(item.addedAt).toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "short",
@@ -273,7 +273,7 @@ function GroceryListPage() {
                         />
                         <button
                           onClick={() => handleRemove(item.productId)}
-                          className="text-[#596B62] hover:text-red-500 transition-colors p-1.5"
+                          className="text-[var(--color-text-secondary)] hover:text-red-500 transition-colors p-1.5"
                           title="Remove"
                         >
                           ✕
@@ -285,11 +285,11 @@ function GroceryListPage() {
               })}
             </tbody>
             <tfoot>
-              <tr className="border-t border-[#E3EBE6] bg-[#F5FAF7]/50">
-                <td colSpan={3} className="px-5 py-3 text-[13px] font-semibold text-[#17241E]">
+              <tr className="border-t border-[var(--color-border-light)] bg-[var(--color-teal-light)]/50">
+                <td colSpan={3} className="px-5 py-3 text-[13px] font-semibold text-[var(--color-text-primary)]">
                   Total
                 </td>
-                <td className="px-3 py-3 text-right text-[14px] font-bold text-[#17241E] tabular-nums">
+                <td className="px-3 py-3 text-right text-[14px] font-bold text-[var(--color-text-primary)] tabular-nums">
                   BHD {totalCost.toFixed(3)}
                 </td>
                 <td colSpan={2} />

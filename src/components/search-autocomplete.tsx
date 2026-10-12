@@ -146,7 +146,7 @@ export function SearchAutocomplete({
     return (
       <>
         {text.slice(0, idx)}
-        <mark className="bg-[#DDF5E8] text-[#087F5B] rounded-sm px-0.5">{text.slice(idx, idx + query.length)}</mark>
+        <mark className="bg-[var(--color-teal-light)] text-[var(--color-teal-accent)] rounded-sm px-0.5">{text.slice(idx, idx + query.length)}</mark>
         {text.slice(idx + query.length)}
       </>
     );
@@ -167,7 +167,7 @@ export function SearchAutocomplete({
 
   return (
     <div ref={wrapperRef} className={`relative ${className}`} role="combobox" aria-expanded={open} aria-haspopup="listbox">
-      <div className="flex items-center gap-2.5 rounded-xl border border-[#E3EBE6] bg-white px-4 py-3 focus-within:border-[#087F5B] focus-within:ring-2 focus-within:ring-[#087F5B]/15 transition-colors">
+      <div className="flex items-center gap-2.5 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] px-4 py-3 focus-within:border-[var(--color-teal-accent)] focus-within:ring-2 focus-within:ring-[var(--color-teal-accent)]/15 transition-colors">
         <SearchIcon />
         <input
           ref={inputRef}
@@ -188,7 +188,7 @@ export function SearchAutocomplete({
           }}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="flex-1 text-[14px] text-[#17241E] placeholder:text-[#596B62] bg-transparent outline-none min-w-0"
+          className="flex-1 text-[14px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-secondary)] bg-transparent outline-none min-w-0"
           style={{ fontFamily: "Inter, system-ui, sans-serif" }}
           role="searchbox"
           aria-autocomplete="list"
@@ -196,7 +196,7 @@ export function SearchAutocomplete({
           autoComplete="off"
         />
         {loading && (
-          <span className="h-4 w-4 border-2 border-[#E3EBE6] border-t-[#087F5B] rounded-full animate-spin shrink-0" />
+          <span className="h-4 w-4 border-2 border-[var(--color-border-light)] border-t-[var(--color-teal-accent)] rounded-full animate-spin shrink-0" />
         )}
         {query && !loading && (
           <button
@@ -206,7 +206,7 @@ export function SearchAutocomplete({
               if (onSearch) onSearch("");
               inputRef.current?.focus();
             }}
-            className="text-[#596B62] hover:text-[#17241E] shrink-0 p-0.5"
+            className="text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] shrink-0 p-0.5"
             aria-label="Clear search"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -221,7 +221,7 @@ export function SearchAutocomplete({
         <div
           id="search-suggestions"
           role="listbox"
-          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-[#E3EBE6] bg-white shadow-xl shadow-black/8 max-h-[480px] overflow-y-auto"
+          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] shadow-xl shadow-black/8 max-h-[480px] overflow-y-auto"
         >
           <ul className="py-1.5">
             {suggestions.map((s, i) => {
@@ -232,13 +232,13 @@ export function SearchAutocomplete({
                   role="option"
                   aria-selected={i === activeIndex}
                   className={`px-3 py-3 cursor-pointer flex items-center gap-3 transition-colors min-h-[64px] ${
-                    i === activeIndex ? "bg-[#F5FAF7]" : "hover:bg-[#FAFCFB]"
+                    i === activeIndex ? "bg-[var(--color-teal-light)]" : "hover:bg-[var(--color-teal-light)]"
                   }`}
                   onClick={() => selectSuggestion(s)}
                   onMouseEnter={() => setActiveIndex(i)}
                 >
                   {/* Image / Icon */}
-                  <div className="h-[44px] w-[44px] rounded-lg bg-[#F5FAF7] flex items-center justify-center shrink-0 overflow-hidden">
+                  <div className="h-[44px] w-[44px] rounded-lg bg-[var(--color-teal-light)] flex items-center justify-center shrink-0 overflow-hidden">
                     {imgSrc ? (
                       <img
                         src={imgSrc}
@@ -255,31 +255,31 @@ export function SearchAutocomplete({
                   {/* Name + size */}
                   <div className="flex-1 min-w-0">
                     <p
-                      className="text-[14px] font-medium text-[#17241E] line-clamp-2"
+                      className="text-[14px] font-medium text-[var(--color-text-primary)] line-clamp-2"
                       style={{ fontFamily: "Inter, system-ui, sans-serif" }}
                     >
                       {highlightMatch(s.label)}
                     </p>
                     {s.subtitle && (
-                      <p className="text-[12px] text-[#596B62] mt-0.5 truncate">{s.subtitle}</p>
+                      <p className="text-[12px] text-[var(--color-text-secondary)] mt-0.5 truncate">{s.subtitle}</p>
                     )}
                   </div>
                   {/* Price + meta */}
                   <div className="shrink-0 flex items-center gap-2">
                     {s.price !== undefined && (
                       <span
-                        className="text-[14px] font-semibold text-[#17241E] tabular-nums whitespace-nowrap"
+                        className="text-[14px] font-semibold text-[var(--color-text-primary)] tabular-nums whitespace-nowrap"
                         style={{ fontFamily: "Inter, system-ui, sans-serif" }}
                       >
                         BHD {s.price.toFixed(3)}
                       </span>
                     )}
                     {s.retailerCount !== undefined && s.retailerCount > 1 && (
-                      <span className="text-[11px] font-medium text-[#087F5B] bg-[#DDF5E8] rounded-md px-1.5 py-0.5 whitespace-nowrap">
+                      <span className="text-[11px] font-medium text-[var(--color-teal-accent)] bg-[var(--color-teal-light)] rounded-md px-1.5 py-0.5 whitespace-nowrap">
                         {s.retailerCount} stores
                       </span>
                     )}
-                    <span className="text-[10px] font-medium text-[#596B62] bg-[#F5FAF7] rounded-md px-1.5 py-0.5 uppercase tracking-wide whitespace-nowrap">
+                    <span className="text-[10px] font-medium text-[var(--color-text-secondary)] bg-[var(--color-teal-light)] rounded-md px-1.5 py-0.5 uppercase tracking-wide whitespace-nowrap">
                       {TYPE_LABELS[s.type] || s.type}
                     </span>
                   </div>
@@ -291,18 +291,18 @@ export function SearchAutocomplete({
             <li
               role="option"
               aria-selected={activeIndex === suggestions.length}
-              className={`px-3 py-3 cursor-pointer flex items-center gap-3 border-t border-[#E3EBE6] transition-colors min-h-[52px] ${
-                activeIndex === suggestions.length ? "bg-[#F5FAF7]" : "hover:bg-[#FAFCFB]"
+              className={`px-3 py-3 cursor-pointer flex items-center gap-3 border-t border-[var(--color-border-light)] transition-colors min-h-[52px] ${
+                activeIndex === suggestions.length ? "bg-[var(--color-teal-light)]" : "hover:bg-[var(--color-teal-light)]"
               }`}
               onClick={handleViewAll}
               onMouseEnter={() => setActiveIndex(suggestions.length)}
             >
-              <div className="h-[44px] w-[44px] rounded-lg bg-[#DDF5E8] flex items-center justify-center shrink-0">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#087F5B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="h-[44px] w-[44px] rounded-lg bg-[var(--color-teal-light)] flex items-center justify-center shrink-0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
               </div>
-              <p className="text-[14px] font-medium text-[#087F5B]">
+              <p className="text-[14px] font-medium text-[var(--color-teal-accent)]">
                 View all results for &ldquo;{query}&rdquo;
               </p>
             </li>
@@ -312,11 +312,11 @@ export function SearchAutocomplete({
 
       {/* Empty state */}
       {open && query.trim().length >= 2 && suggestions.length === 0 && !loading && (
-        <div className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-[#E3EBE6] bg-white shadow-xl shadow-black/8 p-5 text-center">
-          <p className="text-[14px] text-[#596B62]">
+        <div className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] shadow-xl shadow-black/8 p-5 text-center">
+          <p className="text-[14px] text-[var(--color-text-secondary)]">
             No results for &ldquo;{query}&rdquo;
           </p>
-          <p className="text-[12px] text-[#596B62] mt-1">
+          <p className="text-[12px] text-[var(--color-text-secondary)] mt-1">
             Try a different spelling or fewer keywords.
           </p>
         </div>
@@ -327,7 +327,7 @@ export function SearchAutocomplete({
 
 function SearchIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#596B62" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
       <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   );

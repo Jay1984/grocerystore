@@ -15,16 +15,16 @@ export default function DealsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
-      <h1 className="text-[30px] font-bold leading-[1.2] text-[#111827] mb-2">
+      <h1 className="text-[30px] font-bold leading-[1.2] text-[var(--color-text-primary)] mb-2">
         Best Deals
       </h1>
-      <p className="text-[#475569] mb-8">
+      <p className="text-[var(--color-text-secondary)] mb-8">
         Current promotions and biggest price differences between retailers
       </p>
 
       {onSale.length > 0 && (
         <section className="mb-10">
-          <h2 className="text-[20px] font-semibold leading-[1.3] text-[#111827] mb-4 flex items-center gap-2">
+          <h2 className="text-[20px] font-semibold leading-[1.3] text-[var(--color-text-primary)] mb-4 flex items-center gap-2">
             <span className="rounded-full bg-red-100 px-2 py-0.5 text-[13px] font-semibold text-red-700">
               SALE
             </span>
@@ -47,14 +47,14 @@ export default function DealsPage() {
               return (
                 <div
                   key={item.product.id}
-                  className="rounded-xl border border-[#E2E8F0] bg-white p-4"
+                  className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-4"
                 >
                   <div className="flex items-start justify-between">
                     <div className="min-w-0 flex-1">
-                      <p className="text-[15px] font-semibold text-[#111827]">
+                      <p className="text-[15px] font-semibold text-[var(--color-text-primary)]">
                         {item.product.name}
                       </p>
-                      <p className="text-[13px] text-[#475569]">
+                      <p className="text-[13px] text-[var(--color-text-secondary)]">
                         {item.product.brand} &middot; {item.product.size}
                       </p>
                     </div>
@@ -73,13 +73,13 @@ export default function DealsPage() {
                   </div>
                   {salePrice && (
                     <div className="mt-3 flex items-baseline gap-2">
-                      <span className="text-[20px] font-bold text-[#111827] tabular-nums">
+                      <span className="text-[20px] font-bold text-[var(--color-text-primary)] tabular-nums">
                         {formatBHD(salePrice.price)}
                       </span>
-                      <span className="text-sm text-[#64748B] line-through tabular-nums">
+                      <span className="text-sm text-[var(--color-text-secondary)] line-through tabular-nums">
                         {formatBHD(salePrice.originalPrice!)}
                       </span>
-                      <span className="text-[13px] text-[#64748B]">
+                      <span className="text-[13px] text-[var(--color-text-secondary)]">
                         at {retailerName}
                       </span>
                     </div>
@@ -92,7 +92,7 @@ export default function DealsPage() {
       )}
 
       <section>
-        <h2 className="text-[20px] font-semibold leading-[1.3] text-[#111827] mb-4">
+        <h2 className="text-[20px] font-semibold leading-[1.3] text-[var(--color-text-primary)] mb-4">
           Biggest Price Differences
         </h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -101,14 +101,14 @@ export default function DealsPage() {
             .map((item) => (
               <div
                 key={item.product.id}
-                className="rounded-xl border border-[#E2E8F0] bg-white p-4"
+                className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-4"
               >
                 <div className="flex items-start justify-between mb-1">
                   <div className="min-w-0 flex-1">
-                    <p className="text-[15px] font-semibold text-[#111827]">
+                    <p className="text-[15px] font-semibold text-[var(--color-text-primary)]">
                       {item.product.name}
                     </p>
-                    <p className="text-[13px] text-[#475569]">
+                    <p className="text-[13px] text-[var(--color-text-secondary)]">
                       {item.product.brand} &middot; {item.product.size}
                     </p>
                   </div>
@@ -130,18 +130,18 @@ export default function DealsPage() {
                       key={r.retailerId}
                       className={`rounded-lg p-2 text-center ${
                         item.cheapestRetailerId === r.retailerId
-                          ? "bg-[#ECFDF5] ring-1 ring-[#087F5B]/30"
-                          : "bg-[#F8FAFC]"
+                          ? "bg-[var(--color-teal-light)] ring-1 ring-[var(--color-teal-accent)]/30"
+                          : "bg-[var(--color-teal-light)]"
                       }`}
                     >
-                      <p className="text-[13px] text-[#64748B] truncate">{r.retailerName}</p>
+                      <p className="text-[13px] text-[var(--color-text-secondary)] truncate">{r.retailerName}</p>
                       <p className="font-bold text-sm tabular-nums">
                         {r.price ? formatBHD(r.price) : "—"}
                       </p>
                     </div>
                   ))}
                 </div>
-                <p className="mt-2 text-sm text-[#087F5B] font-semibold text-center">
+                <p className="mt-2 text-sm text-[var(--color-teal-accent)] font-semibold text-center">
                   Save {item.savings?.toFixed(1)}% at{" "}
                   {item.cheapestRetailerName}
                 </p>

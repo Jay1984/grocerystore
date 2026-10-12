@@ -101,8 +101,8 @@ export function BrandMultiSelect({ brands, selected, q, cats, retailer, sort, pa
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
           selected.length > 0
-            ? "border-[#087F5B] bg-[#ECFDF5] text-[#087F5B]"
-            : "border-[#E2E8F0] bg-white text-[#475569] hover:bg-[#F8FAFC]"
+            ? "border-[var(--color-teal-accent)] bg-[var(--color-teal-light)] text-[var(--color-teal-accent)]"
+            : "border-[var(--color-border-light)] bg-[var(--color-surface)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
         }`}
       >
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
@@ -121,25 +121,25 @@ export function BrandMultiSelect({ brands, selected, q, cats, retailer, sort, pa
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-1 w-[340px] rounded-xl border border-[#E2E8F0] bg-white shadow-xl">
+        <div className="absolute left-0 top-full z-50 mt-1 w-[340px] rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] shadow-xl">
           {/* Search */}
-          <div className="border-b border-[#F1F5F9] p-2">
+          <div className="border-b border-[var(--color-border-light)] p-2">
             <input
               type="text"
               placeholder="Search brands…"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-lg border border-[#E2E8F0] px-3 py-1.5 text-sm text-[#111827] placeholder-[#94A3B8] outline-none focus:border-[#087F5B] focus:ring-1 focus:ring-[#087F5B]"
+              className="w-full rounded-lg border border-[var(--color-border-light)] px-3 py-1.5 text-sm text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)] outline-none focus:border-[var(--color-teal-accent)] focus:ring-1 focus:ring-[var(--color-teal-accent)]"
               autoFocus
             />
           </div>
 
           {/* Select All / Clear */}
-          <div className="flex items-center justify-between border-b border-[#F1F5F9] px-3 py-1.5">
-            <button onClick={selectAll} className="text-[13px] font-medium text-[#087F5B] hover:underline">
+          <div className="flex items-center justify-between border-b border-[var(--color-border-light)] px-3 py-1.5">
+            <button onClick={selectAll} className="text-[13px] font-medium text-[var(--color-teal-accent)] hover:underline">
               Select All
             </button>
-            <button onClick={clearAll} className="text-[13px] font-medium text-[#64748B] hover:underline">
+            <button onClick={clearAll} className="text-[13px] font-medium text-[var(--color-text-secondary)] hover:underline">
               Clear
             </button>
           </div>
@@ -147,33 +147,33 @@ export function BrandMultiSelect({ brands, selected, q, cats, retailer, sort, pa
           {/* Brand list */}
           <div className="max-h-[360px] overflow-y-auto p-1">
             {filtered.map((b) => (
-              <div key={b.brand} className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-[#F8FAFC]">
+              <div key={b.brand} className="flex items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-[var(--color-teal-light)]">
                 <label className="flex flex-1 items-center gap-2 cursor-pointer min-w-0">
                   <input
                     type="checkbox"
                     checked={pending.has(b.brand)}
                     onChange={() => toggleBrand(b.brand)}
-                    className="h-4 w-4 rounded border-[#CBD5E1] text-[#087F5B] focus:ring-[#087F5B] accent-[#087F5B] shrink-0"
+                    className="h-4 w-4 rounded border-[var(--color-border-light)] text-[var(--color-teal-accent)] focus:ring-[var(--color-teal-accent)] accent-[var(--color-teal-accent)] shrink-0"
                   />
-                  <span className="text-sm font-medium text-[#111827] truncate">{b.brand}</span>
-                  <span className="ml-auto text-[12px] text-[#94A3B8] tabular-nums shrink-0">
+                  <span className="text-sm font-medium text-[var(--color-text-primary)] truncate">{b.brand}</span>
+                  <span className="ml-auto text-[12px] text-[var(--color-text-secondary)] tabular-nums shrink-0">
                     {b.count.toLocaleString()}
                   </span>
                 </label>
               </div>
             ))}
             {filtered.length === 0 && (
-              <p className="px-3 py-4 text-center text-sm text-[#94A3B8]">
+              <p className="px-3 py-4 text-center text-sm text-[var(--color-text-secondary)]">
                 No brands match &ldquo;{search}&rdquo;
               </p>
             )}
           </div>
 
           {/* Apply */}
-          <div className="border-t border-[#F1F5F9] p-2">
+          <div className="border-t border-[var(--color-border-light)] p-2">
             <button
               onClick={applyFilters}
-              className="w-full rounded-lg bg-[#087F5B] py-2 text-sm font-semibold text-white hover:bg-[#065F46] transition-colors"
+              className="w-full rounded-lg bg-[var(--color-teal-accent)] py-2 text-sm font-semibold text-white hover:bg-[var(--color-teal-accent)] transition-colors"
             >
               Apply Filters
             </button>

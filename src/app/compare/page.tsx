@@ -96,16 +96,16 @@ export default async function ComparePage(props: {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
-      <h1 className="text-[30px] font-bold leading-[1.2] text-[#111827] mb-2">
+      <h1 className="text-[30px] font-bold leading-[1.2] text-[var(--color-text-primary)] mb-2">
         Compare Prices
       </h1>
-      <p className="text-[#475569] mb-1">
+      <p className="text-[var(--color-text-secondary)] mb-1">
         {result.total.toLocaleString()} products
         {result.crossRetailerCount > 0 && (
-          <> &middot; <span className="text-[#087F5B] font-semibold">{result.crossRetailerCount} cross-store matches</span></>
+          <> &middot; <span className="text-[var(--color-teal-accent)] font-semibold">{result.crossRetailerCount} cross-store matches</span></>
         )}
       </p>
-      <p className="text-[13px] text-[#64748B] mb-6">
+      <p className="text-[13px] text-[var(--color-text-muted)] mb-6">
         Products matched across LuLu, Al Adil and HyperMax are grouped into a single comparison row.
       </p>
 
@@ -144,13 +144,13 @@ export default async function ComparePage(props: {
           pageSize={pageSize}
         />
 
-        <span className="text-[#E2E8F0]">|</span>
+        <span className="text-[var(--color-border-light)]">|</span>
 
         <div className="flex gap-1.5">
           <Link
             href={buildUrl({ ...base, retailer: "all", page: undefined })}
             className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-              retailer === "all" ? "bg-[#087F5B] text-white" : "bg-white border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC]"
+              retailer === "all" ? "bg-[var(--color-teal-accent)] text-white" : "bg-[var(--color-surface)] border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
             }`}
           >
             All Stores
@@ -160,7 +160,7 @@ export default async function ComparePage(props: {
               key={r.id}
               href={buildUrl({ ...base, retailer: r.id, page: undefined })}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                retailer === r.id ? "bg-[#087F5B] text-white" : "bg-white border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC]"
+                retailer === r.id ? "bg-[var(--color-teal-accent)] text-white" : "bg-[var(--color-surface)] border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
               }`}
             >
               {r.name}
@@ -168,7 +168,7 @@ export default async function ComparePage(props: {
           ))}
         </div>
 
-        <span className="text-[#E2E8F0]">|</span>
+        <span className="text-[var(--color-border-light)]">|</span>
 
         <div className="flex gap-1.5">
           {[
@@ -182,7 +182,7 @@ export default async function ComparePage(props: {
               key={s.id}
               href={buildUrl({ ...base, sort: s.id, page: undefined })}
               className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                sort === s.id ? "bg-[#087F5B] text-white" : "bg-white border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC]"
+                sort === s.id ? "bg-[var(--color-teal-accent)] text-white" : "bg-[var(--color-surface)] border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
               }`}
             >
               {s.label}
@@ -190,16 +190,16 @@ export default async function ComparePage(props: {
           ))}
         </div>
 
-        <span className="text-[#E2E8F0]">|</span>
+        <span className="text-[var(--color-border-light)]">|</span>
 
         <div className="flex gap-1.5 items-center">
-          <span className="text-sm text-[#64748B]">Show:</span>
+          <span className="text-sm text-[var(--color-text-muted)]">Show:</span>
           {PAGE_SIZES.map((s) => (
             <Link
               key={s}
               href={buildUrl({ ...base, size: String(s), page: undefined })}
               className={`rounded-full px-2.5 py-1 text-sm font-medium transition-colors ${
-                pageSize === s ? "bg-[#087F5B] text-white" : "bg-white border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC]"
+                pageSize === s ? "bg-[var(--color-teal-accent)] text-white" : "bg-[var(--color-surface)] border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
               }`}
             >
               {s}
@@ -219,15 +219,15 @@ export default async function ComparePage(props: {
                 brands: validBrands.filter((b) => b !== brand).join(",") || undefined,
                 page: undefined,
               })}
-              className="flex items-center gap-1 rounded-full bg-[#ECFDF5] border border-[#087F5B]/20 px-2.5 py-1 text-[13px] font-medium text-[#087F5B] hover:bg-[#D1FAE5] transition-colors"
+              className="flex items-center gap-1 rounded-full bg-[var(--color-teal-light)] border border-[var(--color-teal-accent)]/20 px-2.5 py-1 text-[13px] font-medium text-[var(--color-teal-accent)] hover:bg-[var(--color-badge-savings-bg)] transition-colors"
             >
               {brand}
-              <span className="text-[#087F5B]/60 ml-0.5">✕</span>
+              <span className="text-[var(--color-teal-accent)]/60 ml-0.5">✕</span>
             </Link>
           ))}
           <Link
             href={buildUrl({ ...base, brands: undefined, page: undefined })}
-            className="rounded-full border border-[#E2E8F0] px-2.5 py-1 text-[13px] font-medium text-[#64748B] hover:bg-[#F8FAFC] transition-colors"
+            className="rounded-full border border-[var(--color-border-light)] px-2.5 py-1 text-[13px] font-medium text-[var(--color-text-muted)] hover:bg-[var(--color-teal-light)] transition-colors"
           >
             Clear brands
           </Link>
@@ -248,7 +248,7 @@ export default async function ComparePage(props: {
       )}
 
       {/* Result count */}
-      <p className="text-[13px] text-[#64748B] mb-4">
+      <p className="text-[13px] text-[var(--color-text-muted)] mb-4">
         Showing {((page - 1) * pageSize + 1).toLocaleString()}–
         {Math.min(page * pageSize, result.total).toLocaleString()} of{" "}
         {result.total.toLocaleString()} products
@@ -268,15 +268,15 @@ export default async function ComparePage(props: {
           return (
             <div
               key={product.id}
-              className="rounded-2xl border border-[#E5E2DC] bg-white px-5 py-5 sm:px-6"
+              className="rounded-2xl border border-[var(--color-border-light)] bg-[var(--color-surface)] px-5 py-5 sm:px-6"
             >
               {/* Header: title + heart */}
               <div className="flex items-start gap-3 mb-4">
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-[17px] font-semibold text-[#1F1F1F] leading-snug">
+                  <h3 className="text-[17px] font-semibold text-[var(--color-text-primary)] leading-snug">
                     {product.title}
                   </h3>
-                  <p className="text-[13px] text-[#777] mt-1">
+                  <p className="text-[13px] text-[var(--color-text-muted)] mt-1">
                     {product.size && <>{product.size} &middot; </>}
                     {getCategoryName(product.category, categoryStats)}
                     {" "}&middot; {storeCount} of {RETAILERS.length} stores
@@ -289,7 +289,7 @@ export default async function ComparePage(props: {
                     brand={product.brand}
                     size={product.size}
                     category={product.category}
-                    className="h-10 w-10 rounded-xl border border-[#E5E2DC] bg-white !p-0 flex items-center justify-center hover:border-[#CCC]"
+                    className="h-10 w-10 rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] !p-0 flex items-center justify-center hover:border-[var(--color-text-muted)]"
                   />
                 </div>
               </div>
@@ -305,10 +305,10 @@ export default async function ComparePage(props: {
                     return (
                       <div
                         key={r.id}
-                        className="rounded-xl border border-dashed border-[#DDD] bg-[#FAFAF8] px-4 py-3"
+                        className="rounded-xl border border-dashed border-[var(--color-border-light)] bg-[var(--color-page-bg)] px-4 py-3"
                       >
                         <p className={`text-[13px] font-semibold ${r.color}`}>{r.name}</p>
-                        <p className="text-[13px] text-[#AAA] mt-1">Not stocked</p>
+                        <p className="text-[13px] text-[var(--color-text-muted)] mt-1">Not stocked</p>
                       </div>
                     );
                   }
@@ -318,27 +318,27 @@ export default async function ComparePage(props: {
                       key={r.id}
                       className={`rounded-xl border px-4 py-3 ${
                         isLowest
-                          ? "border-[#333] border-[1.5px]"
-                          : "border-[#E5E2DC]"
+                          ? "border-[var(--color-text-primary)] border-[1.5px]"
+                          : "border-[var(--color-border-light)]"
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
                         <span className={`text-[13px] font-semibold ${r.color}`}>{r.name}</span>
                         <div className="flex items-center gap-2">
                           {diff > 0.0005 && (
-                            <span className="text-[12px] font-medium text-[#999] tabular-nums">
+                            <span className="text-[12px] font-medium text-[var(--color-text-muted)] tabular-nums">
                               +{diff.toFixed(3)}
                             </span>
                           )}
                           {isLowest && (
-                            <span className="rounded-full bg-[#333] px-2 py-0.5 text-[11px] font-semibold text-white">
+                            <span className="rounded-full bg-[var(--color-text-primary)] px-2 py-0.5 text-[11px] font-semibold text-[var(--color-page-bg)]">
                               Lowest
                             </span>
                           )}
                         </div>
                       </div>
-                      <p className="text-[18px] font-bold text-[#1F1F1F] tabular-nums leading-tight">
-                        <span className="text-[13px] font-semibold text-[#777] mr-0.5">BHD</span>
+                      <p className="text-[18px] font-bold text-[var(--color-text-primary)] tabular-nums leading-tight">
+                        <span className="text-[13px] font-semibold text-[var(--color-text-muted)] mr-0.5">BHD</span>
                         {listing.price.toFixed(3)}
                       </p>
                       {listing.productUrl && (
@@ -346,7 +346,7 @@ export default async function ComparePage(props: {
                           href={listing.productUrl.startsWith("http") ? listing.productUrl : `https://gcc.luluhypermarket.com${listing.productUrl}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[12px] text-[#087F5B] hover:underline mt-1.5 inline-block"
+                          className="text-[12px] text-[var(--color-teal-accent)] hover:underline mt-1.5 inline-block"
                         >
                           View at store →
                         </a>
@@ -358,7 +358,7 @@ export default async function ComparePage(props: {
 
               {/* Footer: savings + add to monthly list */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
-                <p className="text-[13px] text-[#666]">
+                <p className="text-[13px] text-[var(--color-text-secondary)]">
                   {savingsAmount > 0.0005 ? (
                     <>Save BHD {savingsAmount.toFixed(3)} at {cheapestName} vs {mostExpensiveName}</>
                   ) : isMulti ? (
@@ -384,9 +384,9 @@ export default async function ComparePage(props: {
       </div>
 
       {result.products.length === 0 && (
-        <div className="rounded-xl border border-[#E2E8F0] bg-white p-12 text-center">
+        <div className="rounded-xl border border-[var(--color-border-light)] bg-[var(--color-surface)] p-12 text-center">
           <p className="text-4xl mb-3">🔍</p>
-          <p className="text-[#475569]">No products found. Try a different search or filter.</p>
+          <p className="text-[var(--color-text-secondary)]">No products found. Try a different search or filter.</p>
         </div>
       )}
 
@@ -396,20 +396,20 @@ export default async function ComparePage(props: {
           {page > 1 && (
             <Link
               href={buildUrl({ ...base, page: String(page - 1) })}
-              className="rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm font-medium text-[#475569] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-[var(--color-border-light)] px-3 py-2 text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
             >
               ← Previous
             </Link>
           )}
           {generatePageNumbers(page, result.totalPages).map((p, i) =>
             p === "..." ? (
-              <span key={`ellipsis-${i}`} className="px-1 text-[#64748B]">...</span>
+              <span key={`ellipsis-${i}`} className="px-1 text-[var(--color-text-muted)]">...</span>
             ) : (
               <Link
                 key={p}
                 href={buildUrl({ ...base, page: String(p) })}
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  page === p ? "bg-[#087F5B] text-white" : "border border-[#E2E8F0] text-[#475569] hover:bg-[#F8FAFC]"
+                  page === p ? "bg-[var(--color-teal-accent)] text-white" : "border border-[var(--color-border-light)] text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
                 }`}
               >
                 {p}
@@ -419,7 +419,7 @@ export default async function ComparePage(props: {
           {page < result.totalPages && (
             <Link
               href={buildUrl({ ...base, page: String(page + 1) })}
-              className="rounded-lg border border-[#E2E8F0] px-3 py-2 text-sm font-medium text-[#475569] hover:bg-[#F8FAFC]"
+              className="rounded-lg border border-[var(--color-border-light)] px-3 py-2 text-sm font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-teal-light)]"
             >
               Next →
             </Link>
