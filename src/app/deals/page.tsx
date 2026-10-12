@@ -1,6 +1,7 @@
 import { getDeals } from "@/lib/data";
 import { formatBHD, savingsPercentage } from "@/lib/price";
 import { RETAILERS } from "@/lib/seed-data";
+import { FavoriteButton } from "@/components/favorite-button";
 
 export default function DealsPage() {
   const deals = getDeals();
@@ -49,7 +50,7 @@ export default function DealsPage() {
                   className="rounded-xl border border-[#E2E8F0] bg-white p-4"
                 >
                   <div className="flex items-start justify-between">
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-[15px] font-semibold text-[#111827]">
                         {item.product.name}
                       </p>
@@ -57,9 +58,18 @@ export default function DealsPage() {
                         {item.product.brand} &middot; {item.product.size}
                       </p>
                     </div>
-                    <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-bold text-red-700">
-                      {discount.toFixed(0)}% OFF
-                    </span>
+                    <div className="flex items-center gap-1 shrink-0">
+                      <FavoriteButton
+                        productId={item.product.id}
+                        productTitle={item.product.name}
+                        brand={item.product.brand}
+                        size={item.product.size}
+                        category={item.product.category}
+                      />
+                      <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-bold text-red-700">
+                        {discount.toFixed(0)}% OFF
+                      </span>
+                    </div>
                   </div>
                   {salePrice && (
                     <div className="mt-3 flex items-baseline gap-2">
@@ -93,12 +103,24 @@ export default function DealsPage() {
                 key={item.product.id}
                 className="rounded-xl border border-[#E2E8F0] bg-white p-4"
               >
-                <p className="text-[15px] font-semibold text-[#111827]">
-                  {item.product.name}
-                </p>
-                <p className="text-[13px] text-[#475569] mb-3">
-                  {item.product.brand} &middot; {item.product.size}
-                </p>
+                <div className="flex items-start justify-between mb-1">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[15px] font-semibold text-[#111827]">
+                      {item.product.name}
+                    </p>
+                    <p className="text-[13px] text-[#475569]">
+                      {item.product.brand} &middot; {item.product.size}
+                    </p>
+                  </div>
+                  <FavoriteButton
+                    productId={item.product.id}
+                    productTitle={item.product.name}
+                    brand={item.product.brand}
+                    size={item.product.size}
+                    category={item.product.category}
+                    className="shrink-0"
+                  />
+                </div>
                 <div
                   className="grid gap-3"
                   style={{ gridTemplateColumns: `repeat(${item.retailers.length}, minmax(0, 1fr))` }}

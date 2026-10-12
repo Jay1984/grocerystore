@@ -7,6 +7,7 @@ import { queryCanonicalProducts, getBrandFacets } from "@/lib/product-matching";
 import { getDescendantIds } from "@/lib/categories";
 import { formatBHD } from "@/lib/price";
 import { AddToGroceryButton } from "@/components/add-to-grocery";
+import { FavoriteButton } from "@/components/favorite-button";
 import { CompareSearch } from "@/components/compare-search";
 import { CategoryMultiSelect } from "@/components/category-multi-select";
 import { BrandMultiSelect } from "@/components/brand-multi-select";
@@ -254,142 +255,128 @@ export default async function ComparePage(props: {
       </p>
 
       {/* Product list */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {result.products.map((product) => {
           const isMulti = product.listings.length > 1;
+          const lowestPrice = product.listings.reduce((min, l) => l.price < min ? l.price : min, product.listings[0]?.price ?? 0);
+          const highestPrice = product.listings.reduce((max, l) => l.price > max ? l.price : max, 0);
+          const savingsAmount = isMulti ? highestPrice - lowestPrice : 0;
+          const cheapestName = RETAILERS.find(r => r.id === product.cheapestRetailerId)?.name;
+          const mostExpensiveName = RETAILERS.find(r => r.id === product.listings.find(l => l.price === highestPrice)?.retailerId)?.name;
+          const storeCount = product.listings.length;
 
           return (
             <div
               key={product.id}
-              className={`rounded-xl border bg-white p-4 ${
-                isMulti ? "border-[#087F5B]/20 ring-1 ring-[#087F5B]/10" : "border-[#E2E8F0]"
-              }`}
+              className="rounded-2xl border border-[#E5E2DC] bg-white px-5 py-5 sm:px-6"
             >
-              {/* Product info row */}
-              <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                {/* Product details */}
+              {/* Header: title + heart */}
+              <div className="flex items-start gap-3 mb-4">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start gap-2">
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[15px] font-semibold text-[#111827]">
-                        {product.title}
-                      </p>
-                      <p className="text-[13px] text-[#475569] mt-0.5">
-                        {product.brand && <>{product.brand} &middot; </>}
-                        {product.size && <>{product.size} &middot; </>}
-                        {getCategoryName(product.category, categoryStats)}
-                      </p>
-                    </div>
-                    {isMulti && (
-                      <span className="shrink-0 rounded-full bg-[#D1FAE5] px-2 py-0.5 text-[13px] font-semibold text-[#065F46]">
-                        {product.listings.length} stores
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Retailer price columns */}
-                  <div className="mt-3 grid grid-cols-3 gap-2">
-                    {RETAILERS.map((r) => {
-                      const listing = product.listings.find(l => l.retailerId === r.id);
-                      const isWinner = listing && product.cheapestRetailerId === r.id;
-
-                      return (
-                        <div
-                          key={r.id}
-                          className={`rounded-lg p-2.5 text-center ${
-                            isWinner
-                              ? "bg-[#ECFDF5] ring-1 ring-[#087F5B]/30"
-                              : listing
-                                ? "bg-[#F8FAFC]"
-                                : "bg-[#F8FAFC]/50"
-                          }`}
-                        >
-                          <p className={`text-[13px] font-semibold mb-1 ${r.color}`}>
-                            {r.name}
-                          </p>
-                          {listing ? (
-                            <>
-                              <p className={`text-sm font-bold tabular-nums ${
-                                isWinner ? "text-[#059669]" : "text-[#111827]"
-                              }`}>
-                                {formatBHD(listing.price.toFixed(3))}
-                              </p>
-                              {listing.originalPrice !== null && listing.originalPrice > listing.price && (
-                                <p className="text-[13px] text-[#64748B] line-through tabular-nums">
-                                  {formatBHD(listing.originalPrice.toFixed(3))}
-                                </p>
-                              )}
-                              {isWinner && (
-                                <p className="text-[11px] text-[#059669] font-semibold mt-0.5">
-                                  BEST PRICE
-                                </p>
-                              )}
-                              {listing.productUrl && (
-                                <a
-                                  href={listing.productUrl.startsWith("http") ? listing.productUrl : `https://gcc.luluhypermarket.com${listing.productUrl}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[11px] text-[#087F5B] hover:underline mt-1 inline-block"
-                                >
-                                  View →
-                                </a>
-                              )}
-                            </>
-                          ) : (
-                            <p className="text-[13px] text-[#94A3B8] italic">
-                              Not found
-                            </p>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
+                  <h3 className="text-[17px] font-semibold text-[#1F1F1F] leading-snug">
+                    {product.title}
+                  </h3>
+                  <p className="text-[13px] text-[#777] mt-1">
+                    {product.size && <>{product.size} &middot; </>}
+                    {getCategoryName(product.category, categoryStats)}
+                    {" "}&middot; {storeCount} of {RETAILERS.length} stores
+                  </p>
                 </div>
-
-                {/* Savings & actions */}
-                <div className="sm:w-44 shrink-0 flex flex-col items-end gap-2">
-                  {product.savings !== null && product.savings > 0 ? (
-                    <div className="text-right">
-                      <span className="rounded-full bg-[#D1FAE5] px-2.5 py-1 text-sm font-semibold text-[#065F46]">
-                        Save {product.savings.toFixed(1)}%
-                      </span>
-                      <p className="mt-1 text-[13px] text-[#64748B]">
-                        Cheapest at{" "}
-                        {RETAILERS.find(r => r.id === product.cheapestRetailerId)?.name}
-                      </p>
-                      <p className="text-[13px] text-[#059669] font-medium tabular-nums">
-                        {(() => {
-                          const prices = product.listings.map(l => l.price);
-                          const diff = Math.max(...prices) - Math.min(...prices);
-                          return `Save ${formatBHD(diff.toFixed(3))}`;
-                        })()}
-                      </p>
-                    </div>
-                  ) : isMulti ? (
-                    <span className="rounded-full bg-[#F1F5F9] px-2.5 py-1 text-sm font-medium text-[#475569]">
-                      Same price
-                    </span>
-                  ) : (
-                    <span className={`rounded-full px-2.5 py-1 text-[13px] font-medium ${
-                      RETAILERS.find(r => r.id === product.listings[0]?.retailerId)?.bg ?? "bg-[#F1F5F9]"
-                    } ${
-                      RETAILERS.find(r => r.id === product.listings[0]?.retailerId)?.color ?? "text-[#475569]"
-                    }`}>
-                      Only at {RETAILERS.find(r => r.id === product.listings[0]?.retailerId)?.name}
-                    </span>
-                  )}
-
-                  <AddToGroceryButton
+                <div className="shrink-0 mt-0.5">
+                  <FavoriteButton
                     productId={product.id}
                     productTitle={product.title}
                     brand={product.brand}
                     size={product.size}
-                    price={product.listings.reduce((min, l) => l.price < min ? l.price : min, product.listings[0]?.price ?? 0)}
-                    originalPrice={product.listings.find(l => l.retailerId === product.cheapestRetailerId)?.originalPrice ?? null}
-                    retailerId={product.cheapestRetailerId ?? product.listings[0]?.retailerId ?? ""}
                     category={product.category}
+                    className="h-10 w-10 rounded-xl border border-[#E5E2DC] bg-white !p-0 flex items-center justify-center hover:border-[#CCC]"
                   />
                 </div>
+              </div>
+
+              {/* Retailer price grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                {RETAILERS.map((r) => {
+                  const listing = product.listings.find(l => l.retailerId === r.id);
+                  const isLowest = listing && product.cheapestRetailerId === r.id;
+                  const diff = listing && lowestPrice > 0 ? listing.price - lowestPrice : 0;
+
+                  if (!listing) {
+                    return (
+                      <div
+                        key={r.id}
+                        className="rounded-xl border border-dashed border-[#DDD] bg-[#FAFAF8] px-4 py-3"
+                      >
+                        <p className={`text-[13px] font-semibold ${r.color}`}>{r.name}</p>
+                        <p className="text-[13px] text-[#AAA] mt-1">Not stocked</p>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div
+                      key={r.id}
+                      className={`rounded-xl border px-4 py-3 ${
+                        isLowest
+                          ? "border-[#333] border-[1.5px]"
+                          : "border-[#E5E2DC]"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className={`text-[13px] font-semibold ${r.color}`}>{r.name}</span>
+                        <div className="flex items-center gap-2">
+                          {diff > 0.0005 && (
+                            <span className="text-[12px] font-medium text-[#999] tabular-nums">
+                              +{diff.toFixed(3)}
+                            </span>
+                          )}
+                          {isLowest && (
+                            <span className="rounded-full bg-[#333] px-2 py-0.5 text-[11px] font-semibold text-white">
+                              Lowest
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-[18px] font-bold text-[#1F1F1F] tabular-nums leading-tight">
+                        <span className="text-[13px] font-semibold text-[#777] mr-0.5">BHD</span>
+                        {listing.price.toFixed(3)}
+                      </p>
+                      {listing.productUrl && (
+                        <a
+                          href={listing.productUrl.startsWith("http") ? listing.productUrl : `https://gcc.luluhypermarket.com${listing.productUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[12px] text-[#087F5B] hover:underline mt-1.5 inline-block"
+                        >
+                          View at store →
+                        </a>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Footer: savings + add to monthly list */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-1">
+                <p className="text-[13px] text-[#666]">
+                  {savingsAmount > 0.0005 ? (
+                    <>Save BHD {savingsAmount.toFixed(3)} at {cheapestName} vs {mostExpensiveName}</>
+                  ) : isMulti ? (
+                    <>Same price across stores</>
+                  ) : (
+                    <>Only at {RETAILERS.find(r => r.id === product.listings[0]?.retailerId)?.name}</>
+                  )}
+                </p>
+                <AddToGroceryButton
+                  productId={product.id}
+                  productTitle={product.title}
+                  brand={product.brand}
+                  size={product.size}
+                  price={lowestPrice}
+                  originalPrice={product.listings.find(l => l.retailerId === product.cheapestRetailerId)?.originalPrice ?? null}
+                  retailerId={product.cheapestRetailerId ?? product.listings[0]?.retailerId ?? ""}
+                  category={product.category}
+                />
               </div>
             </div>
           );

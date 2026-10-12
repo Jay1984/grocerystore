@@ -17,6 +17,7 @@ import {
   getMonthLabel,
 } from "@/lib/grocery-list";
 import { GroceryListSearch } from "@/components/grocery-list-search";
+import { FavoriteButton } from "@/components/favorite-button";
 
 interface PriceInfo {
   price: number;
@@ -262,13 +263,22 @@ function GroceryListPage() {
                       })}
                     </td>
                     <td className="px-3 py-3 text-right">
-                      <button
-                        onClick={() => handleRemove(item.productId)}
-                        className="text-[#596B62] hover:text-red-500 transition-colors"
-                        title="Remove"
-                      >
-                        ✕
-                      </button>
+                      <div className="flex items-center justify-end gap-1">
+                        <FavoriteButton
+                          productId={item.productId}
+                          productTitle={item.title}
+                          brand={item.brand}
+                          size={item.size}
+                          category={item.category}
+                        />
+                        <button
+                          onClick={() => handleRemove(item.productId)}
+                          className="text-[#596B62] hover:text-red-500 transition-colors p-1.5"
+                          title="Remove"
+                        >
+                          ✕
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );

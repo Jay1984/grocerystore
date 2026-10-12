@@ -5,6 +5,8 @@ import Link from "next/link";
 import { formatBHD } from "@/lib/price";
 import { type GroceryItem, getListForMonth, getCurrentMonthKey } from "@/lib/grocery-list";
 import { DashboardSearch } from "./dashboard-search";
+import { FavoriteButton } from "./favorite-button";
+import { useFavorites } from "./favorites-provider";
 
 interface RetailerInfo {
   id: string;
@@ -36,6 +38,7 @@ interface Props {
 export function DashboardStats({ retailers, bestDeals, categoryStats }: Props) {
   const [items, setItems] = useState<GroceryItem[]>([]);
   const [mounted, setMounted] = useState(false);
+  const { count: favoriteCount } = useFavorites();
 
   useEffect(() => {
     setItems(getListForMonth(getCurrentMonthKey())?.items || []);
@@ -120,7 +123,7 @@ export function DashboardStats({ retailers, bestDeals, categoryStats }: Props) {
       </p>
 
       {/* Three Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {/* Card 1: Total Saved */}
         <div className="rounded-2xl bg-gradient-to-br from-[#087F5B] to-[#006B4F] p-5 text-white relative overflow-hidden">
           <div className="absolute right-0 top-0 w-24 h-24 rounded-full bg-white/5 -mr-6 -mt-6" />
@@ -200,6 +203,24 @@ export function DashboardStats({ retailers, bestDeals, categoryStats }: Props) {
             )}
           </p>
         </div>
+
+        {/* Card 4: Favorites */}
+        <Link href="/favorites" className="rounded-2xl border border-[#E3EBE6] bg-white p-5 hover:border-[#087F5B]/30 transition-colors">
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-[13px] font-medium text-[#596B62]">Saved favorites</p>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#596B62" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </div>
+          <span className="text-[28px] font-bold text-[#17241E] leading-none">
+            {mounted ? favoriteCount : "—"}
+          </span>
+          <p className="mt-2 text-[12px] text-[#596B62]">
+            {mounted && favoriteCount > 0
+              ? "Products you're watching"
+              : "Tap ❤️ on products to save them"}
+          </p>
+        </Link>
       </div>
 
       {/* Spending by Store + Where You Saved */}
@@ -491,9 +512,15 @@ export function DashboardStats({ retailers, bestDeals, categoryStats }: Props) {
                   <span className="text-5xl">
                     {getCategoryIcon(product.category)}
                   </span>
-                  <button className="absolute top-3 right-3 h-8 w-8 rounded-full bg-white border border-[#E3EBE6] flex items-center justify-center text-[#596B62] hover:bg-[#DDF5E8] hover:text-[#087F5B] hover:border-[#087F5B]/30 transition-colors shadow-sm">
-                    <PlusIcon />
-                  </button>
+                  <div className="absolute top-3 right-3">
+                    <FavoriteButton
+                      productId={product.id}
+                      productTitle={product.title}
+                      brand={product.brand}
+                      size={product.size}
+                      category={product.category}
+                    />
+                  </div>
                   <div className="absolute bottom-3 left-3 flex items-center gap-2">
                     <span className={`rounded px-1.5 py-0.5 text-[11px] font-semibold ${
                       product.retailerId === "lulu"

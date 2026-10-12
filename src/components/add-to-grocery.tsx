@@ -102,10 +102,10 @@ export function AddToGroceryButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <button className="rounded-lg border border-[#E2E8F0] px-3 py-1.5 text-[13px] font-medium text-[#475569] hover:bg-[#ECFDF5] hover:text-[#087F5B] hover:border-[#087F5B]/30 transition-colors" />
+          <button className="rounded-lg border border-[#333] px-4 py-2 text-[13px] font-semibold text-[#333] hover:bg-[#F5F5F5] transition-colors whitespace-nowrap" />
         }
       >
-        + Monthly Grocery
+        + Add to monthly list
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

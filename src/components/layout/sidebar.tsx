@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { href: "/", label: "Overview", icon: LayoutDashboardIcon },
   { href: "/grocery-list", label: "My Monthly Grocery", icon: ShoppingBasketIcon },
+  { href: "/favorites", label: "My Favorites", icon: HeartIcon },
   { href: "/compare", label: "Compare Prices", icon: ScaleIcon },
   { href: "/deals", label: "Discover Offers", icon: TagIcon },
   { href: "/trends", label: "Price History", icon: TrendingUpIcon },
@@ -110,6 +111,14 @@ function TrendingUpIcon({ size = 18, active = false }: { size?: number; active?:
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={active ? "#087F5B" : "#596B62"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" />
+    </svg>
+  );
+}
+
+function HeartIcon({ size = 18, active = false }: { size?: number; active?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={active ? "#087F5B" : "#596B62"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>
   );
 }
