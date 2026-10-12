@@ -21,6 +21,7 @@ interface Props {
   categories: CategoryStatItem[];
   selected: string[];
   q?: string;
+  brands?: string;
   retailer: string;
   sort: string;
   pageSize: number;
@@ -37,7 +38,7 @@ function buildUrl(params: Record<string, string | undefined>) {
   return `/compare${qs ? `?${qs}` : ""}`;
 }
 
-export function CategoryMultiSelect({ categories, selected, q, retailer, sort, pageSize }: Props) {
+export function CategoryMultiSelect({ categories, selected, q, brands, retailer, sort, pageSize }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -105,7 +106,7 @@ export function CategoryMultiSelect({ categories, selected, q, retailer, sort, p
   const applyFilters = useCallback(() => {
     const cats = [...pending];
     const catParam = cats.length > 0 ? cats.join(",") : undefined;
-    router.push(buildUrl({ q: q || undefined, cats: catParam, retailer, sort, size: String(pageSize) }));
+    router.push(buildUrl({ q: q || undefined, cats: catParam, brands, retailer, sort, size: String(pageSize) }));
     setOpen(false);
     setSearch("");
   }, [pending, q, retailer, sort, pageSize, router]);

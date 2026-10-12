@@ -38,6 +38,19 @@ const FILLERS = new Set([
   "no","net","wt","weight","each","tea","oil","type","quality","best","fresh","natural",
 ]);
 
+export function extractBrand(title: string, explicitBrand: string | null): string {
+  if (explicitBrand && explicitBrand.trim()) {
+    return explicitBrand.trim().toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
+  }
+  const t = title.toLowerCase();
+  for (const b of BRANDS) {
+    if (t.includes(b)) {
+      return b.replace(/\b\w/g, (c) => c.toUpperCase());
+    }
+  }
+  return "Brand Unknown";
+}
+
 export function extractMatchKey(title: string): string | null {
   let t = title.toLowerCase().replace(/[^a-z0-9\s.]/g, " ").replace(/\s+/g, " ").trim();
 
@@ -191,6 +204,22 @@ export interface PaginatedCanonicalResult {
   crossRetailerCount: number;
 }
 
+export interface BrandFacet {
+  brand: string;
+  count: number;
+}
+
+export function getBrandFacets(products: ScrapedProduct[]): BrandFacet[] {
+  const counts = new Map<string, number>();
+  for (const p of products) {
+    const brand = extractBrand(p.title, p.brand);
+    counts.set(brand, (counts.get(brand) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([brand, count]) => ({ brand, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
 export function queryCanonicalProducts(
   allProducts: ScrapedProduct[],
   opts: {
@@ -198,6 +227,7 @@ export function queryCanonicalProducts(
     category?: string;
     categories?: string[];
     retailer?: string;
+    brands?: string[];
     sort?: string;
     page?: number;
     pageSize?: number;
@@ -227,6 +257,13 @@ export function queryCanonicalProducts(
     filtered = filtered.filter(p => {
       const haystack = `${p.title} ${p.brand || ""} ${p.category} ${p.size || ""}`.toLowerCase();
       return terms.every(t => haystack.includes(t));
+    });
+  }
+  if (opts.brands && opts.brands.length > 0) {
+    const brandSet = new Set(opts.brands.map(b => b.toLowerCase()));
+    filtered = filtered.filter(p => {
+      const b = extractBrand(p.title, p.brand).toLowerCase();
+      return brandSet.has(b);
     });
   }
 

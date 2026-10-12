@@ -3,11 +3,13 @@ export const instant = false;
 import Link from "next/link";
 import { loadAllScrapedProducts } from "@/lib/scraped-data";
 import { getScrapedCategoryStats } from "@/lib/scraped-data";
-import { queryCanonicalProducts } from "@/lib/product-matching";
+import { queryCanonicalProducts, getBrandFacets } from "@/lib/product-matching";
+import { getDescendantIds } from "@/lib/categories";
 import { formatBHD } from "@/lib/price";
 import { AddToGroceryButton } from "@/components/add-to-grocery";
 import { CompareSearch } from "@/components/compare-search";
 import { CategoryMultiSelect } from "@/components/category-multi-select";
+import { BrandMultiSelect } from "@/components/brand-multi-select";
 
 const RETAILERS = [
   { id: "lulu", name: "LuLu", color: "text-green-700", bg: "bg-green-50" },
@@ -41,24 +43,55 @@ export default async function ComparePage(props: {
   const selectedCategories = catsParam ? catsParam.split(",").filter(Boolean) : [];
   const category = typeof searchParams.category === "string" ? searchParams.category : "all";
   const retailer = typeof searchParams.retailer === "string" ? searchParams.retailer : "all";
+  const brandsParam = typeof searchParams.brands === "string" ? searchParams.brands : "";
+  const selectedBrands = brandsParam ? brandsParam.split(",").filter(Boolean) : [];
   const sort = typeof searchParams.sort === "string" ? searchParams.sort : "default";
   const page = Math.max(1, parseInt(typeof searchParams.page === "string" ? searchParams.page : "1", 10) || 1);
   const rawSize = parseInt(typeof searchParams.size === "string" ? searchParams.size : "25", 10) || 25;
   const pageSize = PAGE_SIZES.includes(rawSize) ? rawSize : 25;
 
   const allProducts = loadAllScrapedProducts();
+
+  // Compute brand facets from products filtered by everything except brands
+  const brandFacets = getBrandFacets(
+    allProducts.filter((p) => {
+      if (selectedCategories.length > 0) {
+        const allIds = new Set<string>();
+        for (const cid of selectedCategories) {
+          for (const did of getDescendantIds(cid)) allIds.add(did);
+        }
+        if (!allIds.has(p.category)) return false;
+      } else if (category && category !== "all") {
+        const ids = new Set(getDescendantIds(category));
+        if (!ids.has(p.category)) return false;
+      }
+      if (retailer && retailer !== "all" && p.retailerId !== retailer) return false;
+      if (q) {
+        const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+        const haystack = `${p.title} ${p.brand || ""} ${p.category} ${p.size || ""}`.toLowerCase();
+        if (!terms.every((t) => haystack.includes(t))) return false;
+      }
+      return true;
+    })
+  );
+
+  // Validate selected brands against available facets
+  const availableBrandNames = new Set(brandFacets.map((f) => f.brand));
+  const validBrands = selectedBrands.filter((b) => availableBrandNames.has(b));
+
   const result = queryCanonicalProducts(allProducts, {
     q: q || undefined,
     categories: selectedCategories.length > 0 ? selectedCategories : undefined,
     category: selectedCategories.length === 0 ? category : undefined,
     retailer,
+    brands: validBrands.length > 0 ? validBrands : undefined,
     sort,
     page,
     pageSize,
   });
 
   const categoryStats = getScrapedCategoryStats();
-  const base = { q: q || undefined, cats: catsParam || undefined, retailer, sort, size: String(pageSize) };
+  const base = { q: q || undefined, cats: catsParam || undefined, brands: validBrands.length > 0 ? validBrands.join(",") : undefined, retailer, sort, size: String(pageSize) };
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
@@ -81,6 +114,7 @@ export default async function ComparePage(props: {
           initialQuery={q}
           category={category}
           cats={catsParam || undefined}
+          brands={validBrands.length > 0 ? validBrands.join(",") : undefined}
           retailer={retailer}
           sort={sort}
           pageSize={pageSize}
@@ -93,6 +127,17 @@ export default async function ComparePage(props: {
           categories={categoryStats}
           selected={selectedCategories}
           q={q || undefined}
+          brands={validBrands.length > 0 ? validBrands.join(",") : undefined}
+          retailer={retailer}
+          sort={sort}
+          pageSize={pageSize}
+        />
+
+        <BrandMultiSelect
+          brands={brandFacets}
+          selected={validBrands}
+          q={q || undefined}
+          cats={catsParam || undefined}
           retailer={retailer}
           sort={sort}
           pageSize={pageSize}
@@ -161,6 +206,32 @@ export default async function ComparePage(props: {
           ))}
         </div>
       </div>
+
+      {/* Selected brand chips */}
+      {validBrands.length > 0 && (
+        <div className="mb-3 flex flex-wrap gap-1.5">
+          {validBrands.map((brand) => (
+            <Link
+              key={brand}
+              href={buildUrl({
+                ...base,
+                brands: validBrands.filter((b) => b !== brand).join(",") || undefined,
+                page: undefined,
+              })}
+              className="flex items-center gap-1 rounded-full bg-[#ECFDF5] border border-[#087F5B]/20 px-2.5 py-1 text-[13px] font-medium text-[#087F5B] hover:bg-[#D1FAE5] transition-colors"
+            >
+              {brand}
+              <span className="text-[#087F5B]/60 ml-0.5">✕</span>
+            </Link>
+          ))}
+          <Link
+            href={buildUrl({ ...base, brands: undefined, page: undefined })}
+            className="rounded-full border border-[#E2E8F0] px-2.5 py-1 text-[13px] font-medium text-[#64748B] hover:bg-[#F8FAFC] transition-colors"
+          >
+            Clear brands
+          </Link>
+        </div>
+      )}
 
       {/* Result count */}
       <p className="text-[13px] text-[#64748B] mb-4">

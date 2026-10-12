@@ -3,13 +3,14 @@
 import { useCallback } from "react";
 import { SearchAutocomplete } from "./search-autocomplete";
 import type { SearchSuggestion } from "@/lib/search-suggestions";
-import { type GroceryItem, loadGroceryList, saveGroceryList } from "@/lib/grocery-list";
+import { addItemToList } from "@/lib/grocery-list";
 
 interface Props {
+  monthKey: string;
   onItemAdded: () => void;
 }
 
-export function GroceryListSearch({ onItemAdded }: Props) {
+export function GroceryListSearch({ monthKey, onItemAdded }: Props) {
   const handleProductSelect = useCallback(
     (productId: string) => {
       fetch(`/api/search/suggestions?q=${encodeURIComponent(productId)}&limit=1`)
@@ -18,29 +19,24 @@ export function GroceryListSearch({ onItemAdded }: Props) {
           const suggestion: SearchSuggestion | undefined = data.suggestions?.[0];
           if (!suggestion || suggestion.type !== "product") return;
 
-          const list = loadGroceryList();
-          const existing = list.find((i) => i.productId === productId);
-          if (existing) {
-            existing.quantity += 1;
-          } else {
-            list.push({
+          addItemToList(
+            {
               productId,
               title: suggestion.label,
               brand: suggestion.brandName || null,
               size: suggestion.subtitle || null,
               quantity: 1,
-              addedAt: new Date().toISOString(),
               price: suggestion.price ?? 0,
               originalPrice: null,
               retailerId: "",
               category: suggestion.categoryId || "",
-            });
-          }
-          saveGroceryList(list);
+            },
+            monthKey
+          );
           onItemAdded();
         });
     },
-    [onItemAdded]
+    [monthKey, onItemAdded]
   );
 
   return (

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { formatBHD } from "@/lib/price";
-import { type GroceryItem, loadGroceryList } from "@/lib/grocery-list";
+import { type GroceryItem, getListForMonth, getCurrentMonthKey } from "@/lib/grocery-list";
 import { DashboardSearch } from "./dashboard-search";
 
 interface RetailerInfo {
@@ -38,7 +38,7 @@ export function DashboardStats({ retailers, bestDeals, categoryStats }: Props) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setItems(loadGroceryList());
+    setItems(getListForMonth(getCurrentMonthKey())?.items || []);
     setMounted(true);
   }, []);
 

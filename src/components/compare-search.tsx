@@ -8,6 +8,7 @@ interface Props {
   initialQuery: string;
   category: string;
   cats?: string;
+  brands?: string;
   retailer: string;
   sort: string;
   pageSize: number;
@@ -24,35 +25,35 @@ function buildUrl(params: Record<string, string | undefined>) {
   return `/compare${qs ? `?${qs}` : ""}`;
 }
 
-export function CompareSearch({ initialQuery, category, cats, retailer, sort, pageSize }: Props) {
+export function CompareSearch({ initialQuery, category, cats, brands, retailer, sort, pageSize }: Props) {
   const router = useRouter();
 
   const onSearch = useCallback(
     (q: string) => {
-      router.push(buildUrl({ q: q || undefined, cats, retailer, sort, size: String(pageSize) }));
+      router.push(buildUrl({ q: q || undefined, cats, brands, retailer, sort, size: String(pageSize) }));
     },
-    [router, cats, retailer, sort, pageSize]
+    [router, cats, brands, retailer, sort, pageSize]
   );
 
   const onCategorySelect = useCallback(
     (catId: string) => {
-      router.push(buildUrl({ q: initialQuery || undefined, cats: catId, retailer, sort, size: String(pageSize) }));
+      router.push(buildUrl({ q: initialQuery || undefined, cats: catId, brands, retailer, sort, size: String(pageSize) }));
     },
-    [router, initialQuery, retailer, sort, pageSize]
+    [router, initialQuery, brands, retailer, sort, pageSize]
   );
 
   const onBrandSelect = useCallback(
     (brand: string) => {
-      router.push(buildUrl({ q: brand, cats, retailer, sort, size: String(pageSize) }));
+      router.push(buildUrl({ q: brand, cats, brands, retailer, sort, size: String(pageSize) }));
     },
-    [router, cats, retailer, sort, pageSize]
+    [router, cats, brands, retailer, sort, pageSize]
   );
 
   const onProductSelect = useCallback(
     (productId: string) => {
-      router.push(buildUrl({ q: productId.includes("-") ? undefined : productId, cats, retailer, sort, size: String(pageSize) }));
+      router.push(buildUrl({ q: productId.includes("-") ? undefined : productId, cats, brands, retailer, sort, size: String(pageSize) }));
     },
-    [router, cats, retailer, sort, pageSize]
+    [router, cats, brands, retailer, sort, pageSize]
   );
 
   return (
