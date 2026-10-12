@@ -1,0 +1,23 @@
+{
+  "scrapedAt": "2026-10-11T19:49:54.744Z",
+  "retailers": [
+    {
+      "retailer": "aladil",
+      "categories": 38,
+      "products": 1855,
+      "errors": 0
+    },
+    {
+      "retailer": "hypermax",
+      "categories": 51,
+      "products": 0,
+      "errors": 0
+    },
+    {
+      "retailer": "lulu",
+      "categories": 0,
+      "products": 0,
+      "errors": 1
+    }
+  ]
+}

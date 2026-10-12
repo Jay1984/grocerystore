@@ -1,0 +1,132 @@
+import { getDeals } from "@/lib/data";
+import { formatBHD, savingsPercentage } from "@/lib/price";
+import { RETAILERS } from "@/lib/seed-data";
+
+export default function DealsPage() {
+  const deals = getDeals();
+
+  const onSale = deals.filter((d) =>
+    d.product.prices.some((p) => p.originalPrice !== null)
+  );
+  const priceDiffs = deals.filter(
+    (d) => d.savings !== null && d.savings >= 5
+  );
+
+  return (
+    <div className="mx-auto max-w-7xl px-4 py-8">
+      <h1 className="text-[30px] font-bold leading-[1.2] text-[#111827] mb-2">
+        Best Deals
+      </h1>
+      <p className="text-[#475569] mb-8">
+        Current promotions and biggest price differences between retailers
+      </p>
+
+      {onSale.length > 0 && (
+        <section className="mb-10">
+          <h2 className="text-[20px] font-semibold leading-[1.3] text-[#111827] mb-4 flex items-center gap-2">
+            <span className="rounded-full bg-red-100 px-2 py-0.5 text-[13px] font-semibold text-red-700">
+              SALE
+            </span>
+            On Sale Now
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {onSale.map((item) => {
+              const salePrice = item.product.prices.find(
+                (p) => p.originalPrice !== null
+              );
+              const discount = salePrice
+                ? savingsPercentage(
+                    salePrice.originalPrice!,
+                    salePrice.price
+                  )
+                : 0;
+              const retailerName =
+                RETAILERS.find((r) => r.id === salePrice?.retailer)?.name ??
+                salePrice?.retailer;
+              return (
+                <div
+                  key={item.product.id}
+                  className="rounded-xl border border-[#E2E8F0] bg-white p-4"
+                >
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-[15px] font-semibold text-[#111827]">
+                        {item.product.name}
+                      </p>
+                      <p className="text-[13px] text-[#475569]">
+                        {item.product.brand} &middot; {item.product.size}
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-red-100 px-2.5 py-0.5 text-sm font-bold text-red-700">
+                      {discount.toFixed(0)}% OFF
+                    </span>
+                  </div>
+                  {salePrice && (
+                    <div className="mt-3 flex items-baseline gap-2">
+                      <span className="text-[20px] font-bold text-[#111827] tabular-nums">
+                        {formatBHD(salePrice.price)}
+                      </span>
+                      <span className="text-sm text-[#64748B] line-through tabular-nums">
+                        {formatBHD(salePrice.originalPrice!)}
+                      </span>
+                      <span className="text-[13px] text-[#64748B]">
+                        at {retailerName}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <section>
+        <h2 className="text-[20px] font-semibold leading-[1.3] text-[#111827] mb-4">
+          Biggest Price Differences
+        </h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {priceDiffs
+            .sort((a, b) => (b.savings ?? 0) - (a.savings ?? 0))
+            .map((item) => (
+              <div
+                key={item.product.id}
+                className="rounded-xl border border-[#E2E8F0] bg-white p-4"
+              >
+                <p className="text-[15px] font-semibold text-[#111827]">
+                  {item.product.name}
+                </p>
+                <p className="text-[13px] text-[#475569] mb-3">
+                  {item.product.brand} &middot; {item.product.size}
+                </p>
+                <div
+                  className="grid gap-3"
+                  style={{ gridTemplateColumns: `repeat(${item.retailers.length}, minmax(0, 1fr))` }}
+                >
+                  {item.retailers.map((r) => (
+                    <div
+                      key={r.retailerId}
+                      className={`rounded-lg p-2 text-center ${
+                        item.cheapestRetailerId === r.retailerId
+                          ? "bg-[#ECFDF5] ring-1 ring-[#087F5B]/30"
+                          : "bg-[#F8FAFC]"
+                      }`}
+                    >
+                      <p className="text-[13px] text-[#64748B] truncate">{r.retailerName}</p>
+                      <p className="font-bold text-sm tabular-nums">
+                        {r.price ? formatBHD(r.price) : "—"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-2 text-sm text-[#087F5B] font-semibold text-center">
+                  Save {item.savings?.toFixed(1)}% at{" "}
+                  {item.cheapestRetailerName}
+                </p>
+              </div>
+            ))}
+        </div>
+      </section>
+    </div>
+  );
+}
